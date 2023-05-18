@@ -1,6 +1,7 @@
 package com.example.progetto_iot;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -15,7 +16,7 @@ public class SignalStrengthTracker {
 
     public SignalStrengthTracker(int windowSize) {
         this.windowSize = windowSize;
-        signalStrengthSamples = new ArrayList<>();
+        signalStrengthSamples = new ArrayList<>(Arrays.asList(1));
     }
 
     public void startCalculatingAverageSignalStrength(long intervalMillis) {
