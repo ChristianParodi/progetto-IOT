@@ -18,12 +18,17 @@ import com.example.progetto_iot.BRs.WiFiReceiver;
 import com.example.progetto_iot.R;
 import com.example.progetto_iot.interfaces.WifiScanResult;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ForegroundScanService extends Service implements WifiScanResult {
     private static final String TAG = "BackgroundScanService";
     private static final String NOTIFICATION_CHANNEL_ID = "WiFiScannerId";
     public static boolean isRunning = false;
     private WifiManager wifiManager;
     private WiFiReceiver wifiReceiver;
+    private List<Integer> signalSamples; // Lista delle potenze campionate
+    private int windowSize; // Massimo numero di campioni che teniamo
 
     @Override
     public void onCreate() {
@@ -31,6 +36,9 @@ public class ForegroundScanService extends Service implements WifiScanResult {
         wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         wifiReceiver = new WiFiReceiver(wifiManager, this);
         registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+
+        signalSamples = new ArrayList<>();
+        windowSize = 30;
         super.onCreate();
     }
 
@@ -38,7 +46,7 @@ public class ForegroundScanService extends Service implements WifiScanResult {
     public int onStartCommand(Intent intent, int flags, int startId) {
         wifiManager.startScan();
         isRunning = true;
-        Notify("SchoolAlert", "fuori dalla scuola");
+        Notify("SchoolAlert", "fuori dalla scuola. distanza media = " + getAverageSignalStrength());
         return START_STICKY;
     }
 
@@ -77,10 +85,24 @@ public class ForegroundScanService extends Service implements WifiScanResult {
     @Override
     public void onWifiScanCompleted(ScanResult scanResult) {
         int level = scanResult.level;
-        int averageDistance = -69;
+        signalSamples.add(level);
+        if(signalSamples.size() > windowSize) // Se il segnale aggiunto eccede, tolgo il piu' vecchio
+            signalSamples.remove(0);
+
+        int averageDistance = getAverageSignalStrength();
         if(level > averageDistance){
-            Notify("SchoolAlert", "Dentro la scuola");
+            Notify("SchoolAlert", "Dentro la scuola. distanza media = " + averageDistance);
         } else
-            Notify("SchoolAlert", "Vicino alla scuola");
+            Notify("SchoolAlert", "Vicino alla scuola. distanza media = " + averageDistance);
+    }
+
+    private int getAverageSignalStrength(){
+        if(signalSamples.size() == 0)
+            return 0;
+
+        int sum = 0;
+        for(int elem : signalSamples)
+            sum += elem;
+        return sum / signalSamples.size();
     }
 }
