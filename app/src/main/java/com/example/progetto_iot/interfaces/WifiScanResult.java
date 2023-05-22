@@ -1,5 +1,8 @@
 package com.example.progetto_iot.interfaces;
 
+import android.net.wifi.ScanResult;
+
 public interface WifiScanResult {
-    public void onWifiScanCompleted(String wifiResHTML);
+    void onWifiScanCompleted(String wifiResHTML);
+    void onWifiScanCompleted(ScanResult scanResult);
 }
