@@ -18,6 +18,8 @@ import com.example.progetto_iot.BRs.WiFiReceiver;
 import com.example.progetto_iot.R;
 import com.example.progetto_iot.interfaces.WifiScanResult;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class ForegroundScanService extends Service implements WifiScanResult {
         registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
         signalSamples = new ArrayList<>();
-        windowSize = 30;
+        windowSize = 10;
         super.onCreate();
     }
 
@@ -46,7 +48,7 @@ public class ForegroundScanService extends Service implements WifiScanResult {
     public int onStartCommand(Intent intent, int flags, int startId) {
         wifiManager.startScan();
         isRunning = true;
-        Notify("SchoolAlert", "fuori dalla scuola. distanza media = " + getAverageSignalStrength());
+        Notify("SchoolAlert", "fuori dalla scuola. Non collegato");
         return START_STICKY;
     }
 
@@ -89,20 +91,25 @@ public class ForegroundScanService extends Service implements WifiScanResult {
         if(signalSamples.size() > windowSize) // Se il segnale aggiunto eccede, tolgo il piu' vecchio
             signalSamples.remove(0);
 
-        int averageDistance = getAverageSignalStrength();
-        if(level > averageDistance){
-            Notify("SchoolAlert", "Dentro la scuola. distanza media = " + averageDistance);
+        double averageDistance = getAverageSignalStrength();
+        int soglia = -45;
+        if(averageDistance > soglia){
+            Notify("SchoolAlert", "Dentro la scuola. distanza media = " + averageDistance + "\ndistanza attuale = " + level);
         } else
-            Notify("SchoolAlert", "Vicino alla scuola. distanza media = " + averageDistance);
+            Notify("SchoolAlert", "Fuori dalla scuola. distanza media = " + averageDistance + "\ndistanza attuale = " + level);
     }
 
-    private int getAverageSignalStrength(){
+    private double getAverageSignalStrength(){
         if(signalSamples.size() == 0)
             return 0;
 
-        int sum = 0;
-        for(int elem : signalSamples)
-            sum += elem;
-        return sum / signalSamples.size();
+        double sum = 0;
+        double p = 0;
+        for(int i = 0; i<signalSamples.size(); i++){
+            p += (1.0/(signalSamples.size() - i));
+            sum += signalSamples.get(i) * (1.0/(signalSamples.size() - i)); // media pesata
+        }
+
+        return new BigDecimal(sum / p).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
     }
 }

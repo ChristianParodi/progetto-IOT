@@ -46,13 +46,18 @@ public class MainActivity extends AppCompatActivity implements WifiScanResult {
         tvResult = findViewById(R.id.tvResult);
         btnMisura.setOnClickListener(v -> {
             if(!wifiManager.isWifiEnabled()){
-                Toast.makeText(getApplicationContext(), "Turning on the wifi...", Toast.LENGTH_LONG);
+                Toast.makeText(getApplicationContext(), "Attivando il wifi...", Toast.LENGTH_LONG);
                 wifiManager.setWifiEnabled(true);
             }
 
             tvResult.setText("Scansione in corso...");
             if(!ForegroundScanService.isRunning)
                 startService(new Intent(this, ForegroundScanService.class));
+            else {
+                stopService(new Intent(this, ForegroundScanService.class));
+                startService(new Intent(this, ForegroundScanService.class));
+            }
+
         });
 
         wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);

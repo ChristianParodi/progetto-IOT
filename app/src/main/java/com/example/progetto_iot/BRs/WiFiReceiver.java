@@ -20,7 +20,7 @@ public class WiFiReceiver extends BroadcastReceiver {
     private final String TAG = "WiFiReceiver";
     private WifiManager wifiManager;
     private WifiScanResult wifiScanResult;
-    private static final String MAC = "00:a2:ee:98:13:20"; // GenuaWIFI
+    private static final String MAC = "2a:c2:1f:d7:df:e0"; // MAC di Stefano's
 
     public WiFiReceiver(WifiManager wifiManager, WifiScanResult wiFiScanCompleted) {
         this.wifiManager = wifiManager;
