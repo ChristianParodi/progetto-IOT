@@ -31,6 +31,7 @@ public class ForegroundScanService extends Service implements WifiScanResult {
     private WiFiReceiver wifiReceiver;
     private List<Integer> signalSamples; // Lista delle potenze campionate
     private int windowSize; // Massimo numero di campioni che teniamo
+    private int cont = 0;
 
     @Override
     public void onCreate() {
@@ -40,7 +41,7 @@ public class ForegroundScanService extends Service implements WifiScanResult {
         registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
         signalSamples = new ArrayList<>();
-        windowSize = 10;
+        windowSize = 30;
         super.onCreate();
     }
 
@@ -94,9 +95,13 @@ public class ForegroundScanService extends Service implements WifiScanResult {
         double averageDistance = getAverageSignalStrength();
         int soglia = -45;
         if(averageDistance > soglia){
-            Notify("SchoolAlert", "Dentro la scuola. distanza media = " + averageDistance + "\ndistanza attuale = " + level);
-        } else
-            Notify("SchoolAlert", "Fuori dalla scuola. distanza media = " + averageDistance + "\ndistanza attuale = " + level);
+            //Notify("SchoolAlert", "Dentro la scuola. distanza media = " + averageDistance + "\ndistanza attuale = " + level);
+            cont = 0;
+        } else {
+            cont++;
+            if(cont > 2)
+                Notify("SchoolAlert", "Fuori dalla scuola. distanza media = " + averageDistance + "\ndistanza attuale = " + level);
+        }
     }
 
     private double getAverageSignalStrength(){

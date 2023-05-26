@@ -29,6 +29,8 @@ public class MainActivity extends AppCompatActivity implements WifiScanResult {
     private SignalStrengthTracker tracker;
     private static final int PERMISSION_REQUEST_CODE = 1;
 
+    private boolean res = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,16 +48,21 @@ public class MainActivity extends AppCompatActivity implements WifiScanResult {
         tvResult = findViewById(R.id.tvResult);
         btnMisura.setOnClickListener(v -> {
             if(!wifiManager.isWifiEnabled()){
-                Toast.makeText(getApplicationContext(), "Attivando il wifi...", Toast.LENGTH_LONG);
+                Toast.makeText(getApplicationContext(), "Attivando il wifi...", Toast.LENGTH_LONG).show();
                 wifiManager.setWifiEnabled(true);
             }
 
             tvResult.setText("Scansione in corso...");
-            if(!ForegroundScanService.isRunning)
-                startService(new Intent(this, ForegroundScanService.class));
+            if(!ForegroundScanService.isRunning){
+                Intent i = new Intent(this, ForegroundScanService.class);
+                i.putExtra("res", res);
+                startService(i);
+            }
             else {
                 stopService(new Intent(this, ForegroundScanService.class));
-                startService(new Intent(this, ForegroundScanService.class));
+                Intent i = new Intent(this, ForegroundScanService.class);
+                i.putExtra("res", res);
+                startService(i);
             }
 
         });
@@ -87,6 +94,10 @@ public class MainActivity extends AppCompatActivity implements WifiScanResult {
     @Override
     public void onWifiScanCompleted(ScanResult scanResult) {
 
+    }
+
+    public void isInSchool() {
+        tvResult.setText(res ? "Dentro" : "Fuori");
     }
 
     @Override
