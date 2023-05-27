@@ -1,9 +1,9 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Progetto_iot" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.Parent_app" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
-    <style name="Theme.Child_app" parent="Base.Theme.Progetto_iot" />
+    <style name="Theme.Parent_app" parent="Base.Theme.Parent_app" />
 </resources>
