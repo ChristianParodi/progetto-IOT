@@ -1,7 +1,9 @@
 package com.example.parent_app;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.widget.Button;
@@ -21,7 +23,9 @@ import org.json.JSONObject;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    private static final String IP = "192.168.154.111"; // Da controllare ad ogni avvio
+    private static final String IP = "192.168.1.7"; // Da controllare ad ogni avvio
+
+    private static int childId = -1;
     private Button btnCall;
     private TextView tvNome;
     private TextView tvCognome;
@@ -39,10 +43,15 @@ public class MainActivity extends AppCompatActivity {
         tvTipo = findViewById(R.id.tvTipo);
         tvData = findViewById(R.id.tvData);
 
+        if(childId == -1){
+            Intent i = new Intent(this, RequestChildDataActivity.class);
+            startActivityForResult(i, RequestChildDataActivity.ACTIVITY_ID);
+        }
+
         btnCall.setOnClickListener(v -> {
             RequestQueue queue = Volley.newRequestQueue(this);
 
-            JsonArrayRequest stringRequest = new JsonArrayRequest(Request.Method.GET, "http://" + IP + ":3000/select/1", null,
+            JsonArrayRequest stringRequest = new JsonArrayRequest(Request.Method.GET, "http://" + IP + ":3000/select/" + childId, null,
                     response -> {
                         try {
                             for(int i = 0; i < response.length(); i++){
@@ -59,5 +68,16 @@ public class MainActivity extends AppCompatActivity {
             );
             queue.add(stringRequest);
         });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == RequestChildDataActivity.ACTIVITY_ID){
+            if(resultCode == RESULT_OK){
+                assert data != null;
+                childId = data.getIntExtra("child_id", -1);
+            }
+        }
     }
 }

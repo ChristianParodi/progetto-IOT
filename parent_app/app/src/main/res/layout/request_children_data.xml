@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:padding="40dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inserisci il codice che ti e' stato dato dalla scuola"
+        android:textSize="20dp"
+        android:layout_marginVertical="20dp"
+        />
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/tf_child_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Codice bambino"
+        android:layout_marginTop="20dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_error"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/holo_red_light"
+        android:layout_marginTop="5dp"
+        />
+
+    <Button
+        android:id="@+id/btn_insert_child_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Inserisci"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@android:color/holo_purple"
+        />
+</LinearLayout>
