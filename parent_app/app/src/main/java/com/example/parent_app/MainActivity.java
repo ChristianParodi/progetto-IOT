@@ -4,11 +4,17 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.icu.text.ListFormatter;
 import android.os.Bundle;
 import android.text.Html;
+import android.view.Gravity;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -22,6 +28,7 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
@@ -29,8 +36,10 @@ public class MainActivity extends AppCompatActivity {
 
     private static int childId = -1;
     private TextView tvError;
-    private ScrollView scrollView;
+    private TableLayout history;
     private ImageView iwIcon;
+    private TextView childName;
+    private TextView isIn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,15 +48,14 @@ public class MainActivity extends AppCompatActivity {
 
         iwIcon = findViewById(R.id.image_view_icons);
         tvError = findViewById(R.id.tv_error_scroll);
-        scrollView = findViewById(R.id.scroll_view);
+        history = findViewById(R.id.tl_history);
+        childName = findViewById(R.id.tv_name_child);
+        isIn = findViewById(R.id.tv_is_in);
 
         if(childId == -1){
             Intent i = new Intent(this, RequestChildDataActivity.class);
             startActivityForResult(i, RequestChildDataActivity.ACTIVITY_ID);
         }
-
-
-
     }
 
     @Override
@@ -71,14 +79,47 @@ public class MainActivity extends AppCompatActivity {
 
                                 for(int i = 0; i < response.length(); i++){
                                     JSONObject current = response.getJSONObject(i);
-                                    TextView record = new TextView(this);
+                                    TextView recordDate = new TextView(this);
+                                    TextView recordType = new TextView(this);
+                                    TableRow tr = new TableRow(this);
+
+                                    styleTextViews(recordDate, recordType);
+
                                     try {
-                                        record.setText(current.getString("data") + "\t" + current.getString("tipo"));
+                                        // Togliamo i secondi dal datetime
+                                        String[] datetime = current.getString("data").split(" ");
+                                        datetime[1] = datetime[1].substring(0, 5);
+                                        recordDate.setText(datetime[0] + " " + datetime[1]);
+
+                                        String type = current.getString("tipo");
+                                        recordType.setText(type);
+                                        recordType.setTextColor(type.equalsIgnoreCase("uscita") ? Color.RED : Color.GREEN);
+
                                     } catch (JSONException e){
                                         tvError.setText(e.toString());
                                     }
-//                            scrollView.addView(record);
+                                    tr.addView(recordDate);
+                                    tr.addView(recordType);
+                                    history.addView(tr);
                                 }
+
+                                // Setta l'icona in base all'ultimo elemento (se uscita o ingresso)
+                                // Sono gia' automaticamente ordinati per data
+                                // mettiamo anche nome e cognome del pargolo
+                                JSONObject lastRecord = response.getJSONObject(0);
+                                childName.setText(lastRecord.getString("nome") + " " + lastRecord.getString("cognome"));
+
+                                if(lastRecord.getString("tipo").equalsIgnoreCase("ingresso")){
+                                    iwIcon.setImageResource(R.drawable.baseline_check_circle_24);
+                                    isIn.setTextColor(Color.GREEN);
+                                    isIn.setText("Dentro");
+                                } else {
+                                    iwIcon.setImageResource(R.drawable.baseline_dangerous_24);
+                                    isIn.setTextColor(Color.RED);
+                                    isIn.setText("Fuori");
+                                }
+
+
                             } catch(JSONException e){
                                 e.printStackTrace();
                             }
@@ -87,5 +128,15 @@ public class MainActivity extends AppCompatActivity {
                 queue.add(stringRequest);
             }
         }
+    }
+
+    private static void styleTextViews(TextView recordDate, TextView recordType) {
+        TableRow.LayoutParams layoutParams = new TableRow.LayoutParams(0, TableRow.LayoutParams.WRAP_CONTENT, 1f);
+        recordDate.setTextSize(16);
+        recordDate.setLayoutParams(layoutParams);
+        recordDate.setGravity(Gravity.CENTER_HORIZONTAL);
+        recordType.setTextSize(16);
+        recordType.setLayoutParams(layoutParams);
+        recordType.setGravity(Gravity.CENTER_HORIZONTAL);
     }
 }
