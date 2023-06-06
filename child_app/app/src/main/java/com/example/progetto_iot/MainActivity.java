@@ -26,7 +26,6 @@ public class MainActivity extends AppCompatActivity implements WifiScanResult {
     private TextView tvResult;
     private WifiManager wifiManager;
     private WiFiReceiver wifiReceiver;
-    private SignalStrengthTracker tracker;
     private static final int PERMISSION_REQUEST_CODE = 1;
 
     private boolean res = false;
@@ -42,47 +41,25 @@ public class MainActivity extends AppCompatActivity implements WifiScanResult {
                     PERMISSION_REQUEST_CODE);
         }
 
-        tracker = new SignalStrengthTracker(5);
-        tracker.startCalculatingAverageSignalStrength(500);
         btnMisura = findViewById(R.id.btnMisura);
         tvResult = findViewById(R.id.tvResult);
-        btnMisura.setOnClickListener(v -> {
-            if(!wifiManager.isWifiEnabled()){
-                Toast.makeText(getApplicationContext(), "Attivando il wifi...", Toast.LENGTH_LONG).show();
-                wifiManager.setWifiEnabled(true);
-            }
-
-            tvResult.setText("Scansione in corso...");
-            if(!ForegroundScanService.isRunning){
-                Intent i = new Intent(this, ForegroundScanService.class);
-                i.putExtra("res", res);
-                startService(i);
-            }
-            else {
-                stopService(new Intent(this, ForegroundScanService.class));
-                Intent i = new Intent(this, ForegroundScanService.class);
-                i.putExtra("res", res);
-                startService(i);
-            }
-
-        });
 
         wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
-        wifiReceiver = new WiFiReceiver(wifiManager, this);
-        registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
 
-//        SignalStrengthTracker signalStrengthTracker = new SignalStrengthTracker(5); // Imposta la dimensione della finestra
-//        signalStrengthTracker.startCalculatingAverageSignalStrength(1000); // Avvia il calcolo ogni 1000 millisecondi (1 secondo)
-//        // Aggiungi un nuovo campione di potenza del segnale ogni volta che ottieni un valore
-//        int signalStrength = wiFiReceiver.getRssi(); // Ottieni il valore di potenza del segnale
-//        signalStrengthTracker.addSample(signalStrength);
+        if(!wifiManager.isWifiEnabled()){
+            Toast.makeText(getApplicationContext(), "Attivando il wifi...", Toast.LENGTH_LONG).show();
+            wifiManager.setWifiEnabled(true);
+        }
+
+        if(!ForegroundScanService.isRunning){
+            Intent i = new Intent(this, ForegroundScanService.class);
+            startService(i);
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        tracker.stopCalculatingAverageSignalStrength();
-        unregisterReceiver(wifiReceiver);
         stopService(new Intent(this, ForegroundScanService.class));
     }
 
@@ -94,10 +71,6 @@ public class MainActivity extends AppCompatActivity implements WifiScanResult {
     @Override
     public void onWifiScanCompleted(ScanResult scanResult) {
 
-    }
-
-    public void isInSchool() {
-        tvResult.setText(res ? "Dentro" : "Fuori");
     }
 
     @Override

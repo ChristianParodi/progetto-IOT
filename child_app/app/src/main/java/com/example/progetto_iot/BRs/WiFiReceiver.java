@@ -20,7 +20,8 @@ public class WiFiReceiver extends BroadcastReceiver {
     private final String TAG = "WiFiReceiver";
     private WifiManager wifiManager;
     private WifiScanResult wifiScanResult;
-    private static final String MAC = "2a:c2:1f:d7:df:e0"; // MAC di Stefano's
+    private static final String SSID = "Stefano's Galaxy S21 5G";
+    private static final String BSSID = "2a:c2:1f:d7:df:e0";
 
     public WiFiReceiver(WifiManager wifiManager, WifiScanResult wiFiScanCompleted) {
         this.wifiManager = wifiManager;
@@ -31,7 +32,6 @@ public class WiFiReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.i(TAG, "onReceive");
 
-
         @SuppressLint("MissingPermission")
         List<ScanResult> wifiScan = this.wifiManager.getScanResults();
 
@@ -39,11 +39,12 @@ public class WiFiReceiver extends BroadcastReceiver {
         _s += "<b>Numero reti wifi trovate: " + wifiScan.size() + "</b><br><br>";
 
         for (int i = 0; i < wifiScan.size(); i++) {
-            if(wifiScan.get(i).BSSID.equals(MAC)){
+            if(wifiScan.get(i).SSID.equals(SSID)){
                 _s += " <b>SSID: </b>" + wifiScan.get(i).SSID + "<br>";
                 _s += " <b>MAC:  </b>" + wifiScan.get(i).BSSID + "<br>";
                 _s += " <b>RSSI: </b>" + wifiScan.get(i).level + "<br><br>";
                 wifiScanResult.onWifiScanCompleted(wifiScan.get(i));
+                Log.i(TAG, _s);
             }
         }
 
