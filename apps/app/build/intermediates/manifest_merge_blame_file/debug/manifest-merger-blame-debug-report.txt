@@ -1,0 +1,98 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.progetto_iot"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="24"
+8-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="33" />
+9-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml
+10
+11    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+11-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:25:5-76
+11-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:25:22-73
+12    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+12-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:26:5-76
+12-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:26:22-73
+13    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+13-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:27:5-79
+13-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:27:22-76
+14
+15    <permission
+15-->[androidx.core:core:1.9.0] C:\Users\chris\.gradle\caches\transforms-3\2d36cdbeb90dfdfd402f076bef064238\transformed\core-1.9.0\AndroidManifest.xml:22:5-24:47
+16        android:name="com.example.progetto_iot.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION"
+16-->[androidx.core:core:1.9.0] C:\Users\chris\.gradle\caches\transforms-3\2d36cdbeb90dfdfd402f076bef064238\transformed\core-1.9.0\AndroidManifest.xml:23:9-81
+17        android:protectionLevel="signature" />
+17-->[androidx.core:core:1.9.0] C:\Users\chris\.gradle\caches\transforms-3\2d36cdbeb90dfdfd402f076bef064238\transformed\core-1.9.0\AndroidManifest.xml:24:9-44
+18
+19    <uses-permission android:name="com.example.progetto_iot.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION" />
+19-->[androidx.core:core:1.9.0] C:\Users\chris\.gradle\caches\transforms-3\2d36cdbeb90dfdfd402f076bef064238\transformed\core-1.9.0\AndroidManifest.xml:26:5-97
+19-->[androidx.core:core:1.9.0] C:\Users\chris\.gradle\caches\transforms-3\2d36cdbeb90dfdfd402f076bef064238\transformed\core-1.9.0\AndroidManifest.xml:26:22-94
+20
+21    <application
+21-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:5:5-24:19
+22        android:allowBackup="true"
+22-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:6:9-35
+23        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+23-->[androidx.core:core:1.9.0] C:\Users\chris\.gradle\caches\transforms-3\2d36cdbeb90dfdfd402f076bef064238\transformed\core-1.9.0\AndroidManifest.xml:28:18-86
+24        android:dataExtractionRules="@xml/data_extraction_rules"
+24-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:7:9-65
+25        android:debuggable="true"
+26        android:extractNativeLibs="false"
+27        android:fullBackupContent="@xml/backup_rules"
+27-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:8:9-54
+28        android:icon="@mipmap/ic_launcher"
+28-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:9:9-43
+29        android:label="@string/app_name"
+29-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:10:9-41
+30        android:roundIcon="@mipmap/ic_launcher_round"
+30-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:11:9-54
+31        android:supportsRtl="true"
+31-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:12:9-35
+32        android:testOnly="true"
+33        android:theme="@style/Theme.Progetto_iot" >
+33-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:13:9-50
+34        <activity
+34-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:15:9-23:20
+35            android:name="com.example.progetto_iot.MainActivity"
+35-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:16:13-41
+36            android:exported="true" >
+36-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:17:13-36
+37            <intent-filter>
+37-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:18:13-22:29
+38                <action android:name="android.intent.action.MAIN" />
+38-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:19:17-69
+38-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:19:25-66
+39
+40                <category android:name="android.intent.category.LAUNCHER" />
+40-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:21:17-77
+40-->C:\Users\chris\OneDrive\Desktop\progetto-IOT\app\src\main\AndroidManifest.xml:21:27-74
+41            </intent-filter>
+42        </activity>
+43
+44        <provider
+44-->[androidx.emoji2:emoji2:1.2.0] C:\Users\chris\.gradle\caches\transforms-3\1aadcf4e0f237724308e0370743d8486\transformed\emoji2-1.2.0\AndroidManifest.xml:24:9-32:20
+45            android:name="androidx.startup.InitializationProvider"
+45-->[androidx.emoji2:emoji2:1.2.0] C:\Users\chris\.gradle\caches\transforms-3\1aadcf4e0f237724308e0370743d8486\transformed\emoji2-1.2.0\AndroidManifest.xml:25:13-67
+46            android:authorities="com.example.progetto_iot.androidx-startup"
+46-->[androidx.emoji2:emoji2:1.2.0] C:\Users\chris\.gradle\caches\transforms-3\1aadcf4e0f237724308e0370743d8486\transformed\emoji2-1.2.0\AndroidManifest.xml:26:13-68
+47            android:exported="false" >
+47-->[androidx.emoji2:emoji2:1.2.0] C:\Users\chris\.gradle\caches\transforms-3\1aadcf4e0f237724308e0370743d8486\transformed\emoji2-1.2.0\AndroidManifest.xml:27:13-37
+48            <meta-data
+48-->[androidx.emoji2:emoji2:1.2.0] C:\Users\chris\.gradle\caches\transforms-3\1aadcf4e0f237724308e0370743d8486\transformed\emoji2-1.2.0\AndroidManifest.xml:29:13-31:52
+49                android:name="androidx.emoji2.text.EmojiCompatInitializer"
+49-->[androidx.emoji2:emoji2:1.2.0] C:\Users\chris\.gradle\caches\transforms-3\1aadcf4e0f237724308e0370743d8486\transformed\emoji2-1.2.0\AndroidManifest.xml:30:17-75
+50                android:value="androidx.startup" />
+50-->[androidx.emoji2:emoji2:1.2.0] C:\Users\chris\.gradle\caches\transforms-3\1aadcf4e0f237724308e0370743d8486\transformed\emoji2-1.2.0\AndroidManifest.xml:31:17-49
+51            <meta-data
+51-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\chris\.gradle\caches\transforms-3\f7d8f15274dd8b4fe8a5f106a508708e\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:31:13-33:52
+52                android:name="androidx.lifecycle.ProcessLifecycleInitializer"
+52-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\chris\.gradle\caches\transforms-3\f7d8f15274dd8b4fe8a5f106a508708e\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:32:17-78
+53                android:value="androidx.startup" />
+53-->[androidx.lifecycle:lifecycle-process:2.4.1] C:\Users\chris\.gradle\caches\transforms-3\f7d8f15274dd8b4fe8a5f106a508708e\transformed\lifecycle-process-2.4.1\AndroidManifest.xml:33:17-49
+54        </provider>
+55    </application>
+56
+57</manifest>
