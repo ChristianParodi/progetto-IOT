@@ -35,20 +35,11 @@ public class WiFiReceiver extends BroadcastReceiver {
         @SuppressLint("MissingPermission")
         List<ScanResult> wifiScan = this.wifiManager.getScanResults();
 
-        String _s = "";
-        _s += "<b>Numero reti wifi trovate: " + wifiScan.size() + "</b><br><br>";
-
         for (int i = 0; i < wifiScan.size(); i++) {
             if(wifiScan.get(i).SSID.equals(SSID)){
-                _s += " <b>SSID: </b>" + wifiScan.get(i).SSID + "<br>";
-                _s += " <b>MAC:  </b>" + wifiScan.get(i).BSSID + "<br>";
-                _s += " <b>RSSI: </b>" + wifiScan.get(i).level + "<br><br>";
                 wifiScanResult.onWifiScanCompleted(wifiScan.get(i));
-                Log.i(TAG, _s);
+                return;
             }
         }
-
-        // Passare la stringa alla main activity
-        this.wifiScanResult.onWifiScanCompleted(_s);
     }
 }

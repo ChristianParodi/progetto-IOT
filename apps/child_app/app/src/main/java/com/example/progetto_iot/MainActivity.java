@@ -21,19 +21,17 @@ import com.example.progetto_iot.BRs.WiFiReceiver;
 import com.example.progetto_iot.interfaces.WifiScanResult;
 import com.example.progetto_iot.services.ForegroundScanService;
 
-public class MainActivity extends AppCompatActivity implements WifiScanResult {
+public class MainActivity extends AppCompatActivity {
     private TextView tvResult;
     private WifiManager wifiManager;
-    private WiFiReceiver wifiReceiver;
     private static final int PERMISSION_REQUEST_CODE = 1;
-
-    private boolean res = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Richiedi i permessi di geolocalizzazione
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -59,16 +57,6 @@ public class MainActivity extends AppCompatActivity implements WifiScanResult {
     protected void onStop() {
         super.onStop();
         stopService(new Intent(this, ForegroundScanService.class));
-    }
-
-    @Override
-    public void onWifiScanCompleted(String wifiResHTML) {
-        tvResult.setText(Html.fromHtml(wifiResHTML));
-    }
-
-    @Override
-    public void onWifiScanCompleted(ScanResult scanResult) {
-
     }
 
     @Override

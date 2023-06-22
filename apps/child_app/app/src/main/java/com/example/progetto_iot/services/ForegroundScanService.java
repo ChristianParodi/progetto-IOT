@@ -43,8 +43,7 @@ public class ForegroundScanService extends Service implements WifiScanResult {
     private WiFiReceiver wifiReceiver;
     private List<Integer> signalSamples; // Lista delle potenze campionate
     private int windowSize; // Massimo numero di campioni che teniamo
-
-    private static final String IP = "192.168.151.187";
+    private static final String IP = "192.168.151.187"; // IP dell'host dell'API
     private static final int childId = 1;
     private static final String nome = "Gino";
     private static final String cognome = "Paoli";
@@ -54,8 +53,8 @@ public class ForegroundScanService extends Service implements WifiScanResult {
         IN
     };
 
-    private State state;
-    private State previous;
+    private State state; // Stato corrente (IN, OUT)
+    private State previous; // Stato precedente (IN, OUT)
     private boolean currentRecordType;
     private static int stateCount = 0;
 
@@ -89,9 +88,8 @@ public class ForegroundScanService extends Service implements WifiScanResult {
                         throw new RuntimeException(e);
                     }
                 },
-                error -> {
-                    Log.e(TAG, error.toString());
-                }
+                error -> Log.e(TAG, error.toString())
+
         );
         requestQueue.add(arrayRequest);
         super.onCreate();
@@ -132,11 +130,6 @@ public class ForegroundScanService extends Service implements WifiScanResult {
     }
 
     @Override
-    public void onWifiScanCompleted(String wifiResHTML) {
-
-    }
-
-    @Override
     public void onWifiScanCompleted(ScanResult scanResult) {
         Log.i(TAG, "ForegroundService: onWifiScanCompleted");
         int level = scanResult.level;
@@ -146,17 +139,16 @@ public class ForegroundScanService extends Service implements WifiScanResult {
         if(signalSamples.size() > windowSize) // Se il segnale aggiunto eccede, tolgo il piu' vecchio
             for(int i = 0; i < windowSize/3; i++)
                 signalSamples.remove(i);
-        else if(signalSamples.size() == windowSize){
+
+        else if(signalSamples.size() == windowSize){ // Se abbiamo raggiunto la finestra, prendiamo una decisione
             double averageDistance = getAverageSignalStrength();
-            int soglia = -45;
+            int soglia = -45; // arbirtraria
 
             previous = state;
             state = averageDistance > soglia ? State.IN : State.OUT;
 
-            if(state != previous)
-                stateCount = 0;
-            else
-                stateCount++;
+            // Se lo stato rimane lo stesso, incremento il contatore della decisione
+            stateCount = state != previous ? 0 : stateCount + 1;
 
             for(int i = 0; i < windowSize/3; i++)
                 signalSamples.remove(i);
@@ -228,13 +220,13 @@ public class ForegroundScanService extends Service implements WifiScanResult {
             return 0;
 
         double sum = 0;
-        double p = 0;
+        double denom = 0;
         for(int i = 0; i<signalSamples.size(); i++){
-            p += (1.0/(signalSamples.size() - i));
+            denom += (1.0/(signalSamples.size() - i)); // somma dei pesi (denominatore)
             sum += signalSamples.get(i) * (1.0/(signalSamples.size() - i)); // media pesata
         }
 
-        return new BigDecimal(sum / p).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
+        return new BigDecimal(sum / denom).setScale(2, RoundingMode.HALF_EVEN).doubleValue();
     }
 
 }

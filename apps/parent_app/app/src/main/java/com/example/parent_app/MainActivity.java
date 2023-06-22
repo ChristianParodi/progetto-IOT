@@ -32,9 +32,7 @@ import org.w3c.dom.Text;
 
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = "MainActivity";
-    private static final String IP = "172.20.10.2"; // Fede
-//    private static final String IP = "192.168.1.7"; //
-    // Da controllare ad ogni avvio
+    private static final String IP = "172.20.10.2"; // Fede (IP dell'host dell'API)
 
     private static int childId = -1;
     private TextView tvError;
