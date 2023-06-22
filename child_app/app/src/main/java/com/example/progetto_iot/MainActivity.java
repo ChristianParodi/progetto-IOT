@@ -22,7 +22,6 @@ import com.example.progetto_iot.interfaces.WifiScanResult;
 import com.example.progetto_iot.services.ForegroundScanService;
 
 public class MainActivity extends AppCompatActivity implements WifiScanResult {
-    private Button btnMisura;
     private TextView tvResult;
     private WifiManager wifiManager;
     private WiFiReceiver wifiReceiver;
@@ -41,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements WifiScanResult {
                     PERMISSION_REQUEST_CODE);
         }
 
-        btnMisura = findViewById(R.id.btnMisura);
         tvResult = findViewById(R.id.tvResult);
 
         wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);

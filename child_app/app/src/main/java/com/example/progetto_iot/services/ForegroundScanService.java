@@ -140,6 +140,7 @@ public class ForegroundScanService extends Service implements WifiScanResult {
     public void onWifiScanCompleted(ScanResult scanResult) {
         Log.i(TAG, "ForegroundService: onWifiScanCompleted");
         int level = scanResult.level;
+        Log.i(TAG, "" + level);
         signalSamples.add(level);
 
         if(signalSamples.size() > windowSize) // Se il segnale aggiunto eccede, tolgo il piu' vecchio

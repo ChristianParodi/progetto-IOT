@@ -20,7 +20,7 @@ public class WiFiReceiver extends BroadcastReceiver {
     private final String TAG = "WiFiReceiver";
     private WifiManager wifiManager;
     private WifiScanResult wifiScanResult;
-    private static final String SSID = "Stefano's Galaxy S21 5G";
+    private static final String SSID = "iPhone di Federico";
     private static final String BSSID = "2a:c2:1f:d7:df:e0";
 
     public WiFiReceiver(WifiManager wifiManager, WifiScanResult wiFiScanCompleted) {
